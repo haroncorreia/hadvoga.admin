@@ -89,16 +89,16 @@ const linksList = [
     link: '/assinantes',
   },
   {
-    title: 'Planos',
-    caption: 'Gestão de planos.',
-    icon: 'category',
-    link: '/planos',
-  },
-  {
     title: 'Pagamentos',
     caption: 'Gestão de pagamentos.',
     icon: 'payments',
     link: '/pagamentos',
+  },
+  {
+    title: 'Planos',
+    caption: 'Gestão de planos.',
+    icon: 'category',
+    link: '/planos',
   },
   {
     title: 'Sair',

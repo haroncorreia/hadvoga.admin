@@ -73,10 +73,10 @@ export default defineComponent({
         iconName: 'payments',
       },
       {
-        iconName: 'category',
         cardTitle: 'Planos',
         cardDescription: 'Acesso rápido a sua lista de planos.',
         cardLink: '/planos',
+        iconName: 'category',
       },
     ];
     // You can use the cardsData array to dynamically generate the cards if needed
