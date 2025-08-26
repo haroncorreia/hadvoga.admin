@@ -54,7 +54,7 @@
               />
             </span>
             <span v-else-if="col.name === 'assinaturas_situacao'">
-              <q-badge :color="col.value === 'Ativa' ? 'green' : 'red'" text-color="white">
+              <q-badge :color="col.value === 'Ativa' ? 'green' : col.value === 'Expirada' ? 'grey' : 'red'" text-color="white">
                 {{ col.value }}
               </q-badge>
             </span>
