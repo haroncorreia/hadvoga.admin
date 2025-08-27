@@ -25,7 +25,7 @@
 
       <template v-slot:top>
 
-        <TableHeaderActionButtons v-model:searchMode="searchMode" v-model:trashMode="trashMode" v-model:printMode="printMode" @createButtonEvent="usuariosCreate" />
+        <TableHeaderActionButtons v-model:searchMode="searchMode" v-model:trashMode="trashMode" v-model:printMode="printMode" @createButtonEvent="usuariosCreateButton" />
 
         <TableHeaderPrintButtons v-model:printMode="printMode" :columns="usuariosColumns" :rows="usuariosRows" :prefixFileName="'USUARIOS'" />
 
@@ -43,11 +43,11 @@
             <span v-if="col.name === 'actions'">
               <TableDropDownButton
                 :buttons="[
-                  {label: 'Visualizar', icon: 'visibility', color: 'primary', action: null, caption: 'Ver usuário' },
-                  {label: 'Editar', icon: 'edit', color: 'positive', action: null, caption: 'Editar usuário', showOnTrashMode: false },
-                  {label: 'Remover', icon: 'delete_sweep', color: 'negative', action: null, caption: 'Remover usuário', showOnTrashMode: false },
-                  {label: 'Restaurar', icon: 'restore_from_trash', color: 'positive', action: null, caption: 'Restaurar usuário', showOnTrashMode: true },
-                  {label: 'Destruir', icon: 'delete_forever', color: 'negative', action: null, caption: 'Excluir definitivamente', showOnTrashMode: true },
+                  {label: 'Visualizar', icon: 'visibility', color: 'primary', action: usuariosViewButton, caption: 'Ver usuário' },
+                  {label: 'Editar', icon: 'edit', color: 'positive', action: usuariosEditButton, caption: 'Editar usuário', showOnTrashMode: false },
+                  {label: 'Remover', icon: 'delete_sweep', color: 'negative', action: usuariosRemoveButton, caption: 'Remover usuário', showOnTrashMode: false },
+                  {label: 'Restaurar', icon: 'restore_from_trash', color: 'positive', action: usuariosRestoreButton, caption: 'Restaurar usuário', showOnTrashMode: true },
+                  {label: 'Destruir', icon: 'delete_forever', color: 'negative', action: usuariosDestroyButton, caption: 'Excluir definitivamente', showOnTrashMode: true },
                 ]"
                 :buttonsProps="props"
                 v-model:trashMode="trashMode"
@@ -64,6 +64,7 @@
       </template>
     </q-table>
 
+    <UsuarioDialog :dialogProp="usuariosDialog" :mainObjectProp="usuariosMainObject" />
   </q-page>
 </template>
 
@@ -86,6 +87,7 @@ import TableDropDownButton from 'src/components/TableDropDownButton.vue'
 import TableHeaderFastFilter from 'src/components/TableHeaderFastFilter.vue'
 import TableHeaderPrintButtons from 'src/components/TableHeaderPrintButtons.vue'
 import TableHeaderSearchFields from 'src/components/TableHeaderSearchFields.vue'
+import UsuarioDialog from './UsuarioDialog.vue'
 
 export default defineComponent({
   name: 'UsuariosPage',
@@ -97,7 +99,8 @@ export default defineComponent({
     TableDropDownButton,
     TableHeaderFastFilter,
     TableHeaderPrintButtons,
-    TableHeaderSearchFields
+    TableHeaderSearchFields,
+    UsuarioDialog
   },
 
   setup() {
@@ -106,18 +109,45 @@ export default defineComponent({
     const trashMode = ref(false)
     const printMode = ref(false)
 
-    const usuariosFilterForRows = ref('')
-    const usuariosRows = ref([])
     const usuariosColumns = ref(usuariosModel.getCommonColumns())
+    const usuariosDialog = ref({})
+    const usuariosFilterForRows = ref('')
+    const usuariosMainObject = ref({})
+    const usuariosRows = ref([])
 
     // Hooks
     onMounted(() => {
       usuariosFetch()
     })
 
-    const usuariosCreate = async (data) => {
-      // Lógica para criar uma nova assinatura
-      console.log(data)
+    const usuariosCreateButton = () => {
+      usuariosMainObject.value = Object.assign({}, {})
+      usuariosDialog.value.action = 'create'
+      usuariosDialog.value.title = 'Criar'
+      usuariosDialog.value.hint = 'Criar novo usuário'
+      usuariosDialog.value.icon = 'add'
+      usuariosDialog.value.iconColor = 'positive'
+      usuariosDialog.value.visible = true
+    }
+
+    const usuariosDestroyButton = (props) => {
+      usuariosMainObject.value = Object.assign({}, props.row)
+      usuariosDialog.value.action = 'destroy'
+      usuariosDialog.value.title = 'Destruir'
+      usuariosDialog.value.hint = 'Excluir definitivamente registro de usuário'
+      usuariosDialog.value.icon = 'delete_forever'
+      usuariosDialog.value.iconColor = 'negative'
+      usuariosDialog.value.visible = true
+    }
+
+    const usuariosEditButton = (props) => {
+      usuariosMainObject.value = Object.assign({}, props.row)
+      usuariosDialog.value.action = 'edit'
+      usuariosDialog.value.title = 'Editar'
+      usuariosDialog.value.hint = 'Editar registro de usuário'
+      usuariosDialog.value.icon = 'edit'
+      usuariosDialog.value.iconColor = 'positive'
+      usuariosDialog.value.visible = true
     }
 
     const usuariosFetch = async () => {
@@ -133,15 +163,52 @@ export default defineComponent({
       usuariosFilterForRows.value = filter
     }
 
+    const usuariosRemoveButton = (props) => {
+      usuariosMainObject.value = Object.assign({}, props.row)
+      usuariosDialog.value.action = 'remove'
+      usuariosDialog.value.title = 'Remover'
+      usuariosDialog.value.hint = 'Remover registro de usuário'
+      usuariosDialog.value.icon = 'delete_sweep'
+      usuariosDialog.value.iconColor = 'negative'
+      usuariosDialog.value.visible = true
+    }
+
+    const usuariosRestoreButton = (props) => {
+      usuariosMainObject.value = Object.assign({}, props.row)
+      usuariosDialog.value.action = 'restore'
+      usuariosDialog.value.title = 'Restaurar'
+      usuariosDialog.value.hint = 'Restaurar registro de usuário'
+      usuariosDialog.value.icon = 'restore_from_trash'
+      usuariosDialog.value.iconColor = 'positive'
+      usuariosDialog.value.visible = true
+    }
+
+    const usuariosViewButton = (props) => {
+      usuariosMainObject.value = Object.assign({}, props.row)
+      usuariosDialog.value.action = 'view'
+      usuariosDialog.value.title = 'Visualizar'
+      usuariosDialog.value.hint = 'Visualizar registro de usuário'
+      usuariosDialog.value.icon = 'visibility'
+      usuariosDialog.value.iconColor = 'primary'
+      usuariosDialog.value.visible = true
+    }
+
     return {
       printMode,
       searchMode,
       trashMode,
       usuariosColumns,
-      usuariosCreate,
+      usuariosCreateButton,
+      usuariosDestroyButton,
+      usuariosDialog,
+      usuariosEditButton,
       usuariosFilter,
       usuariosFilterForRows,
+      usuariosMainObject,
+      usuariosRemoveButton,
+      usuariosRestoreButton,
       usuariosRows,
+      usuariosViewButton,
       print,
     }
   },

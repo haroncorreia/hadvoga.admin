@@ -22,4 +22,34 @@ function calcularPrazo(inicio, fim) {
 
   return { dias: diffDays, horas: diffHours, minutos: diffMinutes };
 }
-export { calcularPrazo };
+
+const getBgFieldColor = (action) => {
+  return (
+    action === 'view' ||
+    action === 'remove' ||
+    action === 'restore' ||
+    action === 'destroy'
+  ) ? 'white' : 'grey-2'
+}
+
+function filterSelect(val, update, abort, objectOptions, objectOptionsFiltered, minCharLengthFilter) {
+  if (minCharLengthFilter) {
+    if (val.length < minCharLengthFilter) {
+      abort()
+      return
+    }
+  }
+  if (val.length < 1 && val !== '') {
+    abort()
+    return
+  }
+  // Update no filtro
+  update(() => {
+    const needle = val.toLowerCase()
+    objectOptions.value = objectOptionsFiltered.filter(v => {
+      return v.nome.toLowerCase().indexOf(needle) > -1
+    })
+  })
+}
+
+export { calcularPrazo, getBgFieldColor, filterSelect };
