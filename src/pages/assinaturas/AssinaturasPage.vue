@@ -5,13 +5,13 @@
     <BreadcrumbsLinks
       :breadcrumbsArray="[
         { icon: 'home', label: 'Início', link: '/home' },
-        { icon: 'groups', label: 'Assinantes', link: '/assinantes' },
+        { icon: 'fa-solid fa-circle-user', label: 'Assinaturas', link: '/assinaturas' },
       ]"
     />
 
     <q-separator />
 
-    <PageHeader pageTitle="Assinantes" pageHint="Utilize as opções abaixo para fazer a gestão dos dados dos assinantes." />
+    <PageHeader pageTitle="Assinaturas" pageHint="Utilize as opções abaixo para fazer a gestão dos dados das assinaturas." />
 
     <q-table
       class="q-pa-md"
@@ -76,7 +76,7 @@ import { defineComponent, onMounted, ref } from 'vue'
 import { notify } from 'src/imports/NotifyHandler'
 
 // Models imports
-import { assinaturasModel } from 'src/models/AssinantesModel.js'
+import { assinaturasModel } from 'src/models/AssinaturasModel.js'
 
 // Importação de componentes
 import BreadcrumbsLinks from 'src/components/BreadcrumbsLinks.vue'
@@ -88,7 +88,7 @@ import TableHeaderPrintButtons from 'src/components/TableHeaderPrintButtons.vue'
 import TableHeaderSearchFields from 'src/components/TableHeaderSearchFields.vue'
 
 export default defineComponent({
-  name: 'AssinantesPage',
+  name: 'AssinaturasPage',
 
   components: {
     BreadcrumbsLinks,

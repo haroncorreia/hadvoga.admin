@@ -61,22 +61,28 @@ export default defineComponent({
     // Setup logic can be added here if needed
     const cardsData = [
       {
-        cardTitle: 'Assinantes',
-        cardDescription: 'Acesso rápido à gestão de assinantes.',
-        cardLink: '/assinantes',
-        iconName: 'groups',
+        cardTitle: 'Usuários',
+        cardDescription: 'Acesso rápido à gestão de usuários.',
+        cardLink: '/usuarios',
+        iconName: 'fa-solid fa-users',
+      },
+      {
+        cardTitle: 'Assinaturas',
+        cardDescription: 'Acesso rápido à gestão de assinaturas.',
+        cardLink: '/assinaturas',
+        iconName: 'fa-solid fa-circle-user',
       },
       {
         cardTitle: 'Pagamentos',
         cardDescription: 'Acesso rápido a lista de pagamentos.',
         cardLink: '/pagamentos',
-        iconName: 'payments',
+        iconName: 'fa-solid fa-credit-card',
       },
       {
         cardTitle: 'Planos',
         cardDescription: 'Acesso rápido a sua lista de planos.',
         cardLink: '/planos',
-        iconName: 'category',
+        iconName: 'fa-solid fa-layer-group',
       },
     ];
     // You can use the cardsData array to dynamically generate the cards if needed
