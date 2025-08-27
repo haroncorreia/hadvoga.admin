@@ -1,4 +1,5 @@
 import { maskDataHoraBR } from "src/imports/MasksHandler";
+import { calcularPrazo } from "src/imports/FunctionsHandler";
 
 export const assinaturasModel = {
   actionCollumn: [
@@ -20,6 +21,7 @@ export const assinaturasModel = {
     { name: 'assinaturas_situacao', required: true, label: 'Situação', align: 'left', field: obj => obj.assinaturas_situacao, sortable: true },
     { name: 'assinaturas_data_inicio', required: true, label: 'Início da assinatura', align: 'left', field: obj => maskDataHoraBR(obj.assinaturas_data_inicio), sortable: true },
     { name: 'assinaturas_data_fim', required: true, label: 'Fim da assinatura', align: 'left', field: obj => maskDataHoraBR(obj.assinaturas_data_fim), sortable: true },
+    { name: 'assinaturas_prazo', required: true, label: 'Prazo', align: 'left', field: obj => calcularPrazo(obj.assinaturas_data_inicio, obj.assinaturas_data_fim).dias + ' dias', sortable: true },
   ],
   trashCollumns: [
     { name: 'assinaturas_id', required: true, label: 'ID', align: 'left', field: obj => obj.assinaturas_id, sortable: true },
