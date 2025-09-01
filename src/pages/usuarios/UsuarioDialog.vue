@@ -1,7 +1,7 @@
 <template>
   <!-- Main object dialog -->
   <q-dialog v-model="componentDialog.visible" persistent>
-    <q-card class="q-pa-md" style="min-width: 600px">
+    <q-card class="q-pa-md" style="min-width: 800px">
 
       <DialogHeader
        :dialogTitle="componentDialog.title"
