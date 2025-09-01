@@ -45,6 +45,14 @@
                 :buttons="[
                   {label: 'Visualizar', icon: 'visibility', color: 'primary', action: usuariosViewButton, caption: 'Ver usuário' },
                   {label: 'Editar', icon: 'edit', color: 'positive', action: usuariosEditButton, caption: 'Editar usuário', showOnTrashMode: false },
+                  {
+                    label: props.row.usuarios_habilitado ? 'Desabilitar' : 'Habilitar',
+                    icon: props.row.usuarios_habilitado ? 'sym_o_person_off' : 'sym_o_person_check',
+                    color: props.row.usuarios_habilitado ? 'negative' : 'positive',
+                    action: usuariosEnableDisableButton,
+                    caption: props.row.usuarios_habilitado ? 'Desabilitar usuário' : 'Habilitar usuário',
+                    showOnTrashMode: false
+                  },
                   {label: 'Remover', icon: 'delete_sweep', color: 'negative', action: usuariosRemoveButton, caption: 'Remover usuário', showOnTrashMode: false },
                   {label: 'Restaurar', icon: 'restore_from_trash', color: 'positive', action: usuariosRestoreButton, caption: 'Restaurar usuário', showOnTrashMode: true },
                   {label: 'Destruir', icon: 'delete_forever', color: 'negative', action: usuariosDestroyButton, caption: 'Excluir definitivamente', showOnTrashMode: true },
@@ -72,6 +80,7 @@
 // Quasar imports
 import { api } from 'src/boot/axios'
 import { defineComponent, onMounted, ref, watch } from 'vue'
+import { useQuasar } from 'quasar'
 
 // JS imports
 import { notify } from 'src/imports/NotifyHandler'
@@ -81,6 +90,7 @@ import { usuariosModel } from 'src/models/UsuariosModel.js'
 
 // Importação de componentes
 import BreadcrumbsLinks from 'src/components/BreadcrumbsLinks.vue'
+import OperationDialog from 'src/components/OperationDialog.vue'
 import PageHeader from 'src/components/PageHeader.vue'
 import TableHeaderActionButtons from 'src/components/TableHeaderActionButtons.vue'
 import TableDropDownButton from 'src/components/TableDropDownButton.vue'
@@ -89,6 +99,7 @@ import TableHeaderPrintButtons from 'src/components/TableHeaderPrintButtons.vue'
 import TableHeaderSearchFields from 'src/components/TableHeaderSearchFields.vue'
 import UsuarioDialog from './UsuarioDialog.vue'
 import UsuariosSearchFields from './UsuariosSearchFields.vue'
+import { ResponseHandler } from 'src/imports/ResponseHandler'
 
 export default defineComponent({
   name: 'UsuariosPage',
@@ -106,6 +117,8 @@ export default defineComponent({
   },
 
   setup() {
+
+    const $q = useQuasar()
 
     const searchMode = ref(false)
     const trashMode = ref(false)
@@ -130,6 +143,12 @@ export default defineComponent({
       } else {
         usuariosFetch()
         usuariosColumns.value = usuariosModel.getCommonColumns()
+      }
+    }, { deep: true })
+
+    watch(searchMode, (newValue) => {
+      if (!newValue) {
+        usuariosFetch()
       }
     }, { deep: true })
 
@@ -161,6 +180,26 @@ export default defineComponent({
       usuariosDialog.value.icon = 'edit'
       usuariosDialog.value.iconColor = 'positive'
       usuariosDialog.value.visible = true
+    }
+
+    const usuariosEnableDisableButton = (props) => {
+      $q.dialog({
+        component: OperationDialog,
+        componentProps: {
+          dialogMessage: props.row.usuarios_habilitado ? 'Tem certeza que deseja desabilitar este usuário?' : 'Tem certeza que deseja habilitar este usuário?',
+          dialogIcon: props.row.usuarios_habilitado ? 'sym_o_person_off' : 'sym_o_person_check',
+          dialogIconColor: props.row.usuarios_habilitado ? 'negative' : 'positive',
+          persistent: true,
+        },
+      }).onOk(async () => {
+        try {
+          const res = await api.patch(`/usuarios/${props.row.usuarios_id}/toggleUserEnableDisable`, { habilitado: !props.row.usuarios_habilitado })
+          ResponseHandler(res)
+          usuariosFetch()
+        } catch (error) {
+          ResponseHandler(error.response);
+        }
+      })
     }
 
     const usuariosFetch = async () => {
@@ -241,6 +280,7 @@ export default defineComponent({
       usuariosDestroyButton,
       usuariosDialog,
       usuariosEditButton,
+      usuariosEnableDisableButton,
       usuariosFetch,
       usuariosFilter,
       usuariosFilterForRows,
