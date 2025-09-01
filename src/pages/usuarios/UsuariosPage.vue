@@ -53,7 +53,7 @@
                     caption: props.row.usuarios_habilitado ? 'Desabilitar usuário' : 'Habilitar usuário',
                     showOnTrashMode: false
                   },
-                  {label: 'Senha', icon: 'key', color: 'yellow-8', action: null, caption: 'Alterar senha', showOnTrashMode: false },
+                  {label: 'Senha', icon: 'key', color: 'yellow-8', action: usuariosUpdatePasswordButton, caption: 'Alterar senha', showOnTrashMode: false },
                   {label: 'Perfil', icon: 'badge', color: 'blue-8', action: null, caption: 'Alterar perfil', showOnTrashMode: false },
                   {label: 'Remover', icon: 'delete_sweep', color: 'negative', action: usuariosRemoveButton, caption: 'Remover usuário', showOnTrashMode: false },
                   {label: 'Restaurar', icon: 'restore_from_trash', color: 'positive', action: usuariosRestoreButton, caption: 'Restaurar usuário', showOnTrashMode: true },
@@ -184,6 +184,16 @@ export default defineComponent({
       usuariosDialog.value.visible = true
     }
 
+    const usuariosUpdatePasswordButton = (props) => {
+      usuariosMainObject.value = Object.assign({}, props.row)
+      usuariosDialog.value.action = 'updatePassword'
+      usuariosDialog.value.title = 'Alterar Senha'
+      usuariosDialog.value.hint = 'Alterar senha do usuário'
+      usuariosDialog.value.icon = 'key'
+      usuariosDialog.value.iconColor = 'yellow-8'
+      usuariosDialog.value.visible = true
+    }
+
     const usuariosEnableDisableButton = (props) => {
       $q.dialog({
         component: OperationDialog,
@@ -291,6 +301,7 @@ export default defineComponent({
       usuariosRestoreButton,
       usuariosRows,
       usuariosSearchData,
+      usuariosUpdatePasswordButton,
       usuariosViewButton,
       print,
     }

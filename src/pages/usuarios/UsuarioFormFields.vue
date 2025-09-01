@@ -1,6 +1,6 @@
 <template>
   <div class="flex flex-start row">
-    <div class="col-3 q-mb-md">
+    <div class="col-3 q-mb-md" v-if="componentDialog.action !== 'updatePassword'">
       <q-input
         v-if="componentDialog.action !== 'create'"
         ref="refUsuariosIdField"
@@ -16,7 +16,7 @@
       />
     </div>
 
-    <div class="col-12 q-mb-md">
+    <div class="col-12 q-mb-md" v-if="componentDialog.action !== 'updatePassword'">
       <q-input
         autofocus
         ref="refUsuariosNomeField"
@@ -38,7 +38,7 @@
       />
     </div>
 
-    <div class="col-6 q-mb-md q-pr-sm">
+    <div class="col-6 q-mb-md q-pr-sm" v-if="componentDialog.action !== 'updatePassword'">
       <q-input
         autofocus
         ref="refUsuariosApelidoField"
@@ -60,7 +60,7 @@
       />
     </div>
 
-    <div class="col-6 q-mb-md q-pr-sm">
+    <div class="col-6 q-mb-md q-pr-sm" v-if="componentDialog.action !== 'updatePassword'">
       <q-input
         ref="refUsuariosDataNascimentoField"
         filled
@@ -82,7 +82,7 @@
       />
     </div>
 
-    <div class="col-6 q-mb-md q-pr-sm">
+    <div class="col-6 q-mb-md q-pr-sm" v-if="componentDialog.action !== 'updatePassword'">
       <q-input
         ref="refUsuariosCpfField"
         filled
@@ -105,7 +105,7 @@
       />
     </div>
 
-    <div class="col-6 q-mb-md">
+    <div class="col-6 q-mb-md" v-if="componentDialog.action !== 'updatePassword'">
       <q-input
         ref="refUsuariosCelularField"
         filled
@@ -128,7 +128,7 @@
       />
     </div>
 
-    <div class="col-12 q-mb-md">
+    <div class="col-12 q-mb-md" v-if="componentDialog.action !== 'updatePassword'">
       <q-input
         ref="refUsuariosEmailField"
         filled
@@ -149,7 +149,7 @@
       />
     </div>
 
-    <div class="col-6 q-mb-md q-pr-sm" v-if="componentDialog.action !== 'create'">
+    <div class="col-6 q-mb-md q-pr-sm" v-if="componentDialog.action !== 'create' && componentDialog.action !== 'updatePassword'">
       <q-select
         ref="refUsuariosPerfilField"
         filled
@@ -182,7 +182,7 @@
       </q-select>
     </div>
 
-    <div class="col-6 q-mb-md" v-if="componentDialog.action !== 'create'">
+    <div class="col-6 q-mb-md" v-if="componentDialog.action !== 'create' && componentDialog.action !== 'updatePassword'">
       <q-select
         ref="refUsuariosHabilitadoField"
         filled
@@ -217,7 +217,7 @@
       </q-select>
     </div>
 
-    <PasswordSecurityStandard v-if="componentDialog.action === 'create'" :mainObjectProp="componentMainObject" />
+    <PasswordSecurityStandard v-if="componentDialog.action === 'create' || componentDialog.action === 'updatePassword'" :mainObjectProp="componentMainObject" />
 
   </div>
 </template>
