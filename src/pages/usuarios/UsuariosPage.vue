@@ -53,6 +53,8 @@
                     caption: props.row.usuarios_habilitado ? 'Desabilitar usuário' : 'Habilitar usuário',
                     showOnTrashMode: false
                   },
+                  {label: 'Senha', icon: 'key', color: 'yellow-8', action: null, caption: 'Alterar senha', showOnTrashMode: false },
+                  {label: 'Perfil', icon: 'badge', color: 'blue-8', action: null, caption: 'Alterar perfil', showOnTrashMode: false },
                   {label: 'Remover', icon: 'delete_sweep', color: 'negative', action: usuariosRemoveButton, caption: 'Remover usuário', showOnTrashMode: false },
                   {label: 'Restaurar', icon: 'restore_from_trash', color: 'positive', action: usuariosRestoreButton, caption: 'Restaurar usuário', showOnTrashMode: true },
                   {label: 'Destruir', icon: 'delete_forever', color: 'negative', action: usuariosDestroyButton, caption: 'Excluir definitivamente', showOnTrashMode: true },
