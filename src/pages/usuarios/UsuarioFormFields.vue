@@ -149,7 +149,7 @@
       />
     </div>
 
-    <div class="col-6 q-mb-md q-pr-sm">
+    <div class="col-6 q-mb-md q-pr-sm" v-if="componentDialog.action !== 'create'">
       <q-select
         ref="refUsuariosPerfilField"
         filled
@@ -181,7 +181,6 @@
         </template>
       </q-select>
     </div>
-
 
     <div class="col-6 q-mb-md" v-if="componentDialog.action !== 'create'">
       <q-select
@@ -217,8 +216,51 @@
         </template>
       </q-select>
     </div>
-  </div>
 
+    <div class="col-6 q-mb-md q-pr-sm" v-if="componentDialog.action === 'create'">
+      <q-input
+        autofocus
+        ref="refUsuariosSenhaField"
+        filled
+        label="Senha"
+        type="password"
+        name="usuarios_senha"
+        placeholder="Senha"
+        :hint="(componentDialog.action === 'create' || componentDialog.action === 'edit') ? 'Informe a senha' : ''"
+        :readonly="
+          componentDialog.action === 'view' ||
+          componentDialog.action === 'remove' ||
+          componentDialog.action === 'restore' ||
+          componentDialog.action === 'destroy'
+        "
+        v-model="componentMainObject.usuarios_senha"
+        :rules="[Rules.required]"
+        :bg-color="getBgFieldColor(componentDialog.action)"
+      />
+    </div>
+
+    <div class="col-6 q-mb-md" v-if="componentDialog.action === 'create'">
+      <q-input
+        autofocus
+        ref="refUsuariosConfirmaSenhaField"
+        filled
+        label="Confirmação de Senha"
+        type="password"
+        name="usuarios_confirma_senha"
+        placeholder="Confirmação de Senha"
+        :hint="(componentDialog.action === 'create' || componentDialog.action === 'edit') ? 'Confirme a senha' : ''"
+        :readonly="
+          componentDialog.action === 'view' ||
+          componentDialog.action === 'remove' ||
+          componentDialog.action === 'restore' ||
+          componentDialog.action === 'destroy'
+        "
+        v-model="componentMainObject.usuarios_confirmaSenha"
+        :rules="[Rules.required]"
+        :bg-color="getBgFieldColor(componentDialog.action)"
+      />
+    </div>
+  </div>
 </template>
 
 <script>
@@ -252,11 +294,11 @@ export default defineComponent({
     let usuariosPerfisOptionsFiltered = [];
 
     onMounted(() => {
-      // clientesFetch();
       usuariosPerfisFetch();
     });
 
-    onActivated(() => {})
+    onActivated(() => {
+    })
 
     const usuariosPerfisFetch = async () => {
       usuariosPerfisOptionsFiltered = usuariosPerfisOptions.value = [

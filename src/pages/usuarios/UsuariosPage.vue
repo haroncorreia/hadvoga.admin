@@ -64,7 +64,7 @@
       </template>
     </q-table>
 
-    <UsuarioDialog :dialogProp="usuariosDialog" :mainObjectProp="usuariosMainObject" />
+    <UsuarioDialog :dialogProp="usuariosDialog" :mainObjectProp="usuariosMainObject" @usuarioDialogReturnEvent="usuariosFetch" />
   </q-page>
 </template>
 
@@ -202,6 +202,7 @@ export default defineComponent({
       usuariosDestroyButton,
       usuariosDialog,
       usuariosEditButton,
+      usuariosFetch,
       usuariosFilter,
       usuariosFilterForRows,
       usuariosMainObject,

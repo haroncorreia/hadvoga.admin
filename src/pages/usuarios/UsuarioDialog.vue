@@ -157,6 +157,8 @@ export default defineComponent({
         let res = null
         switch (componentDialog.value.action) {
           case 'create':
+            sanitizedObject.senha = componentMainObject.value.usuarios_senha;
+            sanitizedObject.confirmaSenha = componentMainObject.value.usuarios_confirmaSenha;
             res = await api.post('/usuarios', sanitizedObject)
             id = res.data.data[0];
             break
