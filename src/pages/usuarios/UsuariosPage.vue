@@ -71,7 +71,7 @@
 <script>
 // Quasar imports
 import { api } from 'src/boot/axios'
-import { defineComponent, onMounted, ref } from 'vue'
+import { defineComponent, onMounted, ref, watch } from 'vue'
 
 // JS imports
 import { notify } from 'src/imports/NotifyHandler'
@@ -121,6 +121,17 @@ export default defineComponent({
     onMounted(() => {
       usuariosFetch()
     })
+
+    watch(trashMode, (newValue) => {
+      if (newValue) {
+        usuariosFetch()
+        usuariosColumns.value = usuariosModel.getTrashColumns()
+        usuariosFilterForRows.value = ''
+      } else {
+        usuariosFetch()
+        usuariosColumns.value = usuariosModel.getCommonColumns()
+      }
+    }, { deep: true })
 
     const usuariosCreateButton = () => {
       usuariosMainObject.value = Object.assign({}, {})

@@ -12,6 +12,7 @@
         placeholder="Nome do usuário"
         hint="Informe o nome ou parte do nome do usuário"
         v-model="componentSearchObject.nome"
+        @keyup="onEnterKeyUp"
       />
     </div>
 
@@ -26,6 +27,7 @@
         placeholder="Apelido do usuário"
         hint="Informe o apelido ou parte do apelido do usuário"
         v-model="componentSearchObject.apelido"
+        @keyup="onEnterKeyUp"
       />
     </div>
 
@@ -39,6 +41,7 @@
         placeholder="CPF do usuário"
         hint="Informe o CPF ou parte do CPF do usuário"
         v-model="componentSearchObject.cpf"
+        @keyup="onEnterKeyUp"
       />
     </div>
 
@@ -52,6 +55,7 @@
         placeholder="Celular do usuário"
         hint="Informe o celular ou parte do celular do usuário"
         v-model="componentSearchObject.celular"
+        @keyup="onEnterKeyUp"
       />
     </div>
 
@@ -65,6 +69,7 @@
         placeholder="E-mail do usuário"
         hint="Informe o e-mail ou parte do e-mail do usuário"
         v-model="componentSearchObject.email"
+        @keyup="onEnterKeyUp"
       />
     </div>
 
