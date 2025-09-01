@@ -166,16 +166,11 @@
         use-input
         hide-selected
         fill-input
-        :readonly="
-          componentDialog.action === 'view' ||
-          componentDialog.action === 'remove' ||
-          componentDialog.action === 'restore' ||
-          componentDialog.action === 'destroy'
-        "
+        readonly
         :options="usuariosPerfisOptions"
         @filter="usuariosPerfisFilter"
         :rules="[Rules.required]"
-        :bg-color="getBgFieldColor(componentDialog.action)"
+        bg-color="white"
         >
         <template v-slot:no-option>
           <q-item>
@@ -205,18 +200,13 @@
         use-input
         hide-selected
         fill-input
-        :readonly="
-          componentDialog.action === 'view' ||
-          componentDialog.action === 'remove' ||
-          componentDialog.action === 'restore' ||
-          componentDialog.action === 'destroy'
-        "
+        readonly
         :options="[
           { id: 0, nome: 'Não' },
           { id: 1, nome: 'Sim' },
         ]"
         :rules="[]"
-        :bg-color="getBgFieldColor(componentDialog.action)"
+        bg-color="white"
         >
         <template v-slot:no-option>
           <q-item>

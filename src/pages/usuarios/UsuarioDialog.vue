@@ -141,8 +141,16 @@ export default defineComponent({
 
     const actionExecute = async () => {
 
-      let id = componentMainObject.value.id
-      let sanitizedObject = componentMainObject.value
+      let id = componentMainObject.value.usuarios_id
+
+      let sanitizedObject = {
+        nome: componentMainObject.value.usuarios_nome,
+        apelido: componentMainObject.value.usuarios_apelido,
+        data_nascimento: componentMainObject.value.usuarios_data_nascimento,
+        cpf: componentMainObject.value.usuarios_cpf,
+        celular: componentMainObject.value.usuarios_celular,
+        email: componentMainObject.value.usuarios_email,
+      }
 
       // Bloco de execução da ação
       try {
