@@ -32,7 +32,7 @@
         <TableHeaderFastFilter v-model:searchMode="searchMode" @filterDataEvent="usuariosFilter" />
 
         <TableHeaderSearchFields v-model:searchMode="searchMode">
-          <!-- <ClientesSearchFields @usuariosSearchDataEvent="usuariosSearchData" /> -->
+          <UsuariosSearchFields @usuariosSearchDataEvent="usuariosSearchData" />
         </TableHeaderSearchFields>
 
       </template>
@@ -88,6 +88,7 @@ import TableHeaderFastFilter from 'src/components/TableHeaderFastFilter.vue'
 import TableHeaderPrintButtons from 'src/components/TableHeaderPrintButtons.vue'
 import TableHeaderSearchFields from 'src/components/TableHeaderSearchFields.vue'
 import UsuarioDialog from './UsuarioDialog.vue'
+import UsuariosSearchFields from './UsuariosSearchFields.vue'
 
 export default defineComponent({
   name: 'UsuariosPage',
@@ -100,7 +101,8 @@ export default defineComponent({
     TableHeaderFastFilter,
     TableHeaderPrintButtons,
     TableHeaderSearchFields,
-    UsuarioDialog
+    UsuarioDialog,
+    UsuariosSearchFields
   },
 
   setup() {
@@ -183,6 +185,32 @@ export default defineComponent({
       usuariosDialog.value.visible = true
     }
 
+    const usuariosSearchData = async (searchParamsObject) => {
+      // Validação: se nenhum parâmetro foi preenchido, notifica e retorna
+      const hasValue = Object.values(searchParamsObject).some(
+        (v) => v && v.toString().trim() !== '',
+      )
+      if (!hasValue) {
+        notify.warning('Preencha pelo menos um campo de pesquisa.')
+        return
+      }
+      // Monta a query string com os valores de searchParamsObject
+      let queryString = ''
+      Object.entries(searchParamsObject).forEach(([key, value]) => {
+        if (value) queryString += `usuarios.${key}=${encodeURIComponent(value)}&`
+      })
+      // Remove o último '&' se existir
+      if (queryString.endsWith('&')) queryString = queryString.slice(0, -1)
+      // Roda a requisição
+      try {
+        const url = `/usuarios/filter${trashMode.value ? 'Removed' : ''}?` + queryString
+        const response = await api.get(url)
+        usuariosRows.value = response.data
+      } catch (error) {
+        notify.error('Erro ao pesquisar dados: ' + error.message)
+      }
+    }
+
     const usuariosViewButton = (props) => {
       usuariosMainObject.value = Object.assign({}, props.row)
       usuariosDialog.value.action = 'view'
@@ -209,6 +237,7 @@ export default defineComponent({
       usuariosRemoveButton,
       usuariosRestoreButton,
       usuariosRows,
+      usuariosSearchData,
       usuariosViewButton,
       print,
     }
