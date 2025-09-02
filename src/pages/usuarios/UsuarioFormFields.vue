@@ -1,6 +1,6 @@
 <template>
   <div class="flex flex-start row">
-    <div class="col-3 q-mb-md" v-if="componentDialog.action !== 'updatePassword'">
+    <div class="col-3 q-mb-md" v-show="componentDialog.action !== 'updatePassword' && componentDialog.action !== 'updateRole'">
       <q-input
         v-if="componentDialog.action !== 'create'"
         ref="refUsuariosIdField"
@@ -16,7 +16,7 @@
       />
     </div>
 
-    <div class="col-12 q-mb-md" v-if="componentDialog.action !== 'updatePassword'">
+    <div class="col-12 q-mb-md" v-show="componentDialog.action !== 'updatePassword' && componentDialog.action !== 'updateRole'">
       <q-input
         autofocus
         ref="refUsuariosNomeField"
@@ -38,7 +38,7 @@
       />
     </div>
 
-    <div class="col-6 q-mb-md q-pr-sm" v-if="componentDialog.action !== 'updatePassword'">
+    <div class="col-6 q-mb-md q-pr-sm" v-show="componentDialog.action !== 'updatePassword' && componentDialog.action !== 'updateRole'">
       <q-input
         autofocus
         ref="refUsuariosApelidoField"
@@ -60,7 +60,7 @@
       />
     </div>
 
-    <div class="col-6 q-mb-md q-pr-sm" v-if="componentDialog.action !== 'updatePassword'">
+    <div class="col-6 q-mb-md q-pr-sm" v-show="componentDialog.action !== 'updatePassword' && componentDialog.action !== 'updateRole'">
       <q-input
         ref="refUsuariosDataNascimentoField"
         filled
@@ -82,7 +82,7 @@
       />
     </div>
 
-    <div class="col-6 q-mb-md q-pr-sm" v-if="componentDialog.action !== 'updatePassword'">
+    <div class="col-6 q-mb-md q-pr-sm" v-show="componentDialog.action !== 'updatePassword' && componentDialog.action !== 'updateRole'">
       <q-input
         ref="refUsuariosCpfField"
         filled
@@ -105,7 +105,7 @@
       />
     </div>
 
-    <div class="col-6 q-mb-md" v-if="componentDialog.action !== 'updatePassword'">
+    <div class="col-6 q-mb-md" v-show="componentDialog.action !== 'updatePassword' && componentDialog.action !== 'updateRole'">
       <q-input
         ref="refUsuariosCelularField"
         filled
@@ -128,7 +128,7 @@
       />
     </div>
 
-    <div class="col-12 q-mb-md" v-if="componentDialog.action !== 'updatePassword'">
+    <div class="col-12 q-mb-md" v-show="componentDialog.action !== 'updatePassword' && componentDialog.action !== 'updateRole'">
       <q-input
         ref="refUsuariosEmailField"
         filled
@@ -149,14 +149,14 @@
       />
     </div>
 
-    <div class="col-6 q-mb-md q-pr-sm" v-if="componentDialog.action !== 'create' && componentDialog.action !== 'updatePassword'">
+    <div :class="componentDialog.action === 'updateRole' ? 'col-12 q-mb-md' : 'col-6 q-mb-md q-pr-sm'" v-if="componentDialog.action !== 'create' && componentDialog.action !== 'updatePassword'">
       <q-select
         ref="refUsuariosPerfilField"
         filled
         name="usuarios_perfil"
         label="Perfil de usuário"
         placeholder="Perfil de usuário"
-        :hint="(componentDialog.action === 'create' || componentDialog.action === 'edit') ? 'Selecione o perfil de usuário' : ''"
+        :hint="(componentDialog.action === 'updateRole') ? 'Selecione o perfil de usuário' : ''"
         v-model="componentMainObject.usuarios_perfil"
         class="q-mb-sm"
         option-value="id"
@@ -166,11 +166,11 @@
         use-input
         hide-selected
         fill-input
-        readonly
+        :readonly="componentDialog.action === 'updateRole' ? false : true"
         :options="usuariosPerfisOptions"
         @filter="usuariosPerfisFilter"
         :rules="[Rules.required]"
-        bg-color="white"
+        :bg-color="componentDialog.action === 'updateRole' ? 'grey-3' : 'white'"
         >
         <template v-slot:no-option>
           <q-item>
@@ -182,7 +182,7 @@
       </q-select>
     </div>
 
-    <div class="col-6 q-mb-md" v-if="componentDialog.action !== 'create' && componentDialog.action !== 'updatePassword'">
+    <div class="col-6 q-mb-md" v-if="componentDialog.action !== 'create' && componentDialog.action !== 'updatePassword' && componentDialog.action !== 'updateRole'">
       <q-select
         ref="refUsuariosHabilitadoField"
         filled
@@ -264,9 +264,10 @@ export default defineComponent({
 
     const usuariosPerfisFetch = async () => {
       usuariosPerfisOptionsFiltered = usuariosPerfisOptions.value = [
-        { id: 'Super', nome: 'SaaS Admin' },
-        { id: 'Administrador', nome: 'Assinante' },
-        { id: 'Operador', nome: 'Operador' },
+        { id: 'Owner', nome: 'Owner (SaaS proprietário)' },
+        { id: 'Admin', nome: 'Admin (SaaS administrativo)' },
+        { id: 'Subscriber', nome: 'Subscriber (assinante)' },
+        { id: 'Operator', nome: 'Operator (operador)' },
       ];
     }
 

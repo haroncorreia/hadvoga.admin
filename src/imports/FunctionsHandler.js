@@ -28,7 +28,8 @@ const getBgFieldColor = (action) => {
     action === 'view' ||
     action === 'remove' ||
     action === 'restore' ||
-    action === 'destroy'
+    action === 'destroy' ||
+    action === 'updateRole'
   ) ? 'white' : 'grey-2'
 }
 

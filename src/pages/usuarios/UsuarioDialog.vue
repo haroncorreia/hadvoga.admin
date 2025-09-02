@@ -1,7 +1,7 @@
 <template>
   <!-- Main object dialog -->
   <q-dialog v-model="componentDialog.visible" persistent>
-    <q-card class="q-pa-md" style="min-width: 800px">
+    <q-card class="q-pa-md" :style="componentDialog.action === 'updateRole' ? 'min-width: 500px' : 'min-width: 800px'">
 
       <DialogHeader
        :dialogTitle="componentDialog.title"
@@ -28,7 +28,7 @@
           icon="save"
           color="positive"
           @click="actionConfirm()"
-          v-if="componentDialog.action === 'create' || componentDialog.action === 'edit' || componentDialog.action === 'updatePassword'"
+          v-if="componentDialog.action === 'create' || componentDialog.action === 'edit' || componentDialog.action === 'updatePassword' || componentDialog.action === 'updateRole'"
           />
 
         <q-btn
@@ -123,6 +123,7 @@ export default defineComponent({
         case 'create':
         case 'edit':
         case 'updatePassword':
+        case 'updateRole':
           if (!(await componentForm.value.validate())) {
             notify.error('Por favor, preencha os campos obrigatórios.')
             return
@@ -179,6 +180,11 @@ export default defineComponent({
             res = await api.patch(`/usuarios/${id}/reset-password`, {
               senha: componentMainObject.value.usuarios_senha,
               confirmaSenha: componentMainObject.value.usuarios_confirmaSenha
+            })
+            break
+          case 'updateRole':
+            res = await api.patch(`/usuarios/${id}/update-role`, {
+              perfil: componentMainObject.value.usuarios_perfil
             })
             break
           default:
