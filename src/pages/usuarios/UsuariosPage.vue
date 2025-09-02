@@ -215,7 +215,7 @@ export default defineComponent({
         },
       }).onOk(async () => {
         try {
-          const res = await api.patch(`/usuarios/${props.row.usuarios_id}/toggleUserEnableDisable`, { habilitado: !props.row.usuarios_habilitado })
+          const res = await api.patch(`/usuarios/${props.row.usuarios_id}/toggle-status`, { habilitado: !props.row.usuarios_habilitado })
           ResponseHandler(res)
           usuariosFetch()
         } catch (error) {
