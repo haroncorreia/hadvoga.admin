@@ -28,7 +28,7 @@
           icon="save"
           color="positive"
           @click="actionConfirm()"
-          v-if="componentDialog.action === 'create' || componentDialog.action === 'edit'"
+          v-if="componentDialog.action === 'create' || componentDialog.action === 'edit' || componentDialog.action === 'updatePassword'"
           />
 
         <q-btn
@@ -122,6 +122,7 @@ export default defineComponent({
       switch (componentDialog.value.action) {
         case 'create':
         case 'edit':
+        case 'updatePassword':
           if (!(await componentForm.value.validate())) {
             notify.error('Por favor, preencha os campos obrigatórios.')
             return
@@ -174,9 +175,15 @@ export default defineComponent({
           case 'destroy':
             res = await api.delete(`/usuarios/${id}`)
             break
+          case 'updatePassword':
+            res = await api.patch(`/usuarios/${id}/reset-password`, {
+              senha: componentMainObject.value.usuarios_senha,
+              confirmaSenha: componentMainObject.value.usuarios_confirmaSenha
+            })
+            break
           default:
             notify.warning('Operação não definida em actionExecute().')
-            break
+            return
         }
         if (res && res.status >= 200 && res.status < 300) {
           componentDialog.value.visible = false
