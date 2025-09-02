@@ -44,11 +44,11 @@ export const ResponseHandler = (response) => {
       notify.error('Parâmetros não permitidos (403).');
       return;
     }
-    notify.error('Acesso proibido. Você não tem permissão para realizar esta operação.');
+    notify.error('Não permitido (403).');
   } else if (response.status === 404) {
-    notify.error('Recurso não encontrado.');
+    notify.error('Não encontrado (404).');
   } else if (response.status === 500) {
-    notify.error('Erro interno do servidor. Tente novamente mais tarde.');
+    notify.error('Erro interno do servidor (500). Tente novamente mais tarde.');
   } else {
     notify.error(`Erro ao realizar a operação: ${response.data.message || response.statusText}`);
   }
