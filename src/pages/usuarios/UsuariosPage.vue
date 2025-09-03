@@ -75,6 +75,7 @@
     </q-table>
 
     <UsuarioDialog :dialogProp="usuariosDialog" :mainObjectProp="usuariosMainObject" @usuarioDialogReturnEvent="usuariosFetch" />
+
   </q-page>
 </template>
 

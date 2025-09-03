@@ -1,26 +1,14 @@
-function calcularPrazo(inicio, fim) {
-  // inicio e fim: strings no formato "DD/MM/YYYYTHH:ii"
-  function parseDate(str) {
-    if (!str || typeof str !== 'string' || !str.includes('T')) return null;
-    const [datePart, timePart] = str.split('T');
-    const [year, month, day] = datePart.split('-').map(Number);
-    if (!timePart) return null;
-    const [hour, minute, second = 0] = timePart.split(':').map(Number);
-    if ([day, month, year, hour, minute].some(isNaN)) return null;
-    return new Date(year, month - 1, day, hour, minute, second);
-  }
+function calcularPrazo(dataHora) {
+  const agora = new Date();
+  const alvo = new Date(dataHora);
 
-  const dataInicio = parseDate(inicio);
-  const dataFim = parseDate(fim);
+  // Zera as horas para considerar apenas dias completos
+  agora.setHours(0, 0, 0, 0);
+  alvo.setHours(0, 0, 0, 0);
 
-  const diffMs = dataFim - dataInicio;
-  if (isNaN(diffMs)) return null;
-
-  const diffDays = Math.floor(diffMs / (1000 * 60 * 60 * 24));
-  const diffHours = Math.floor((diffMs % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-  const diffMinutes = Math.floor((diffMs % (1000 * 60 * 60)) / (1000 * 60));
-
-  return { dias: diffDays, horas: diffHours, minutos: diffMinutes };
+  const diffMs = alvo - agora;
+  const diffDias = Math.ceil(diffMs / (1000 * 60 * 60 * 24));
+  return diffDias;
 }
 
 const getBgFieldColor = (action) => {
@@ -31,6 +19,22 @@ const getBgFieldColor = (action) => {
     action === 'destroy' ||
     action === 'updateRole'
   ) ? 'white' : 'grey-2'
+}
+
+import { api } from "src/boot/axios";
+import { ResponseHandler } from "./ResponseHandler";
+
+async function loadSelect(routeUri, idFieldName, firstLabelFieldName, secondLabelFieldName) {
+  try {
+    let ret = [];
+    const { data } = await api.get(routeUri);
+    data.forEach((item) => {
+      ret.push({ id: item[idFieldName], nome: secondLabelFieldName ? `${item[firstLabelFieldName]} - ${item[secondLabelFieldName]}` : item[firstLabelFieldName] })
+    })
+    return ret;
+  } catch (error) {
+    ResponseHandler(error);
+  }
 }
 
 function filterSelect(val, update, abort, objectOptions, objectOptionsFiltered, minCharLengthFilter) {
@@ -53,4 +57,4 @@ function filterSelect(val, update, abort, objectOptions, objectOptionsFiltered, 
   })
 }
 
-export { calcularPrazo, getBgFieldColor, filterSelect };
+export { calcularPrazo, getBgFieldColor, filterSelect, loadSelect };

@@ -18,10 +18,12 @@ export const assinaturasModel = {
     { name: 'assinaturas_id', required: true, label: 'ID', align: 'left', field: obj => obj.assinaturas_id, sortable: true },
     { name: 'usuarios_fk_nome', required: true, label: 'Assinante', align: 'left', field: obj => obj.usuarios_fk_nome, sortable: true },
     { name: 'planos_fk_nome', required: true, label: 'Plano', align: 'left', field: obj => obj.planos_fk_nome, sortable: true },
+    { name: 'planos_fk_preco', required: true, label: 'Valor', align: 'left', field: obj => 'R$ ' + obj.planos_fk_preco, sortable: true },
     { name: 'assinaturas_situacao', required: true, label: 'Situação', align: 'left', field: obj => obj.assinaturas_situacao, sortable: true },
     { name: 'assinaturas_data_inicio', required: true, label: 'Início da assinatura', align: 'left', field: obj => maskDataHoraBR(obj.assinaturas_data_inicio), sortable: true },
     { name: 'assinaturas_data_fim', required: true, label: 'Fim da assinatura', align: 'left', field: obj => maskDataHoraBR(obj.assinaturas_data_fim), sortable: true },
-    { name: 'assinaturas_prazo', required: true, label: 'Prazo', align: 'left', field: obj => calcularPrazo(obj.assinaturas_data_inicio, obj.assinaturas_data_fim).dias + ' dias', sortable: true },
+    { name: 'assinaturas_prazo', required: true, label: 'Expira em', align: 'left', field: obj => calcularPrazo(obj.assinaturas_data_fim), sortable: true },
+    { name: 'assinaturas_observacoes', required: true, label: 'Observações', align: 'left', field: obj => obj.assinaturas_observacoes ? obj.assinaturas_observacoes : '-', sortable: true },
   ],
   trashCollumns: [
     { name: 'assinaturas_id', required: true, label: 'ID', align: 'left', field: obj => obj.assinaturas_id, sortable: true },
