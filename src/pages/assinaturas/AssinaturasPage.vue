@@ -53,7 +53,7 @@
                     caption: props.row.assinaturas_situacao === 'Ativa' ? 'Inativar assinatura' : 'Ativar assinatura',
                     showOnTrashMode: false
                   },
-                  {label: 'Remover', icon: 'delete_sweep', color: 'negative', action: null, caption: 'Remover assinatura', showOnTrashMode: false },
+                  // {label: 'Remover', icon: 'delete_sweep', color: 'negative', action: null, caption: 'Remover assinatura', showOnTrashMode: false },
                   {label: 'Restaurar', icon: 'restore_from_trash', color: 'positive', action: null, caption: 'Restaurar assinatura', showOnTrashMode: true },
                   {label: 'Destruir', icon: 'delete_forever', color: 'negative', action: null, caption: 'Excluir definitivamente', showOnTrashMode: true },
                 ]"
