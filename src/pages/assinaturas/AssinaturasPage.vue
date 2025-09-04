@@ -32,7 +32,7 @@
         <TableHeaderFastFilter v-model:searchMode="searchMode" @filterDataEvent="assinaturasFilter" />
 
         <TableHeaderSearchFields v-model:searchMode="searchMode">
-          <!-- <ClientesSearchFields @assinaturasSearchDataEvent="assinaturasSearchData" /> -->
+          <AssinaturasSearchFields @assinaturasSearchDataEvent="assinaturasSearchData" />
         </TableHeaderSearchFields>
 
       </template>
@@ -95,6 +95,7 @@ import { assinaturasModel } from 'src/models/AssinaturasModel.js'
 
 // Importação de componentes
 import AssinaturaDialog from './AssinaturaDialog.vue'
+import AssinaturasSearchFields from './AssinaturasSearchFields.vue'
 import BreadcrumbsLinks from 'src/components/BreadcrumbsLinks.vue'
 import PageHeader from 'src/components/PageHeader.vue'
 import TableHeaderActionButtons from 'src/components/TableHeaderActionButtons.vue'
@@ -108,6 +109,7 @@ export default defineComponent({
 
   components: {
     AssinaturaDialog,
+    AssinaturasSearchFields,
     BreadcrumbsLinks,
     PageHeader,
     TableHeaderActionButtons,
@@ -163,6 +165,36 @@ export default defineComponent({
       assinaturasFilterForRows.value = filter
     }
 
+    const assinaturasSearchData = async (searchParamsObject) => {
+
+
+      // Validação: se nenhum parâmetro foi preenchido, notifica e retorna
+      const hasValue = Object.values(searchParamsObject).some(
+        (v) => v && v.toString().trim() !== '',
+      )
+      if (!hasValue) {
+        notify.warning('Preencha pelo menos um campo de pesquisa.')
+        return
+      }
+      // Monta a query string com os valores de searchParamsObject
+      let queryString = ''
+      Object.entries(searchParamsObject).forEach(([key, value]) => {
+        if (key.includes('_fk_')) key = key.replace('_fk_', '_fk.')
+        if (value) queryString += `${key}=${encodeURIComponent(value)}&`
+      })
+      // Remove o último '&' se existir
+      if (queryString.endsWith('&')) queryString = queryString.slice(0, -1)
+      // Roda a requisição
+      try {
+        const url = `/assinaturas/filter${trashMode.value ? 'Removed' : ''}?` + queryString
+        console.log(url);
+        const response = await api.get(url)
+        assinaturasRows.value = response.data
+      } catch (error) {
+        notify.error('Erro ao pesquisar dados: ' + error.message)
+      }
+    }
+
     const assinaturasUpdateStatusButton = (props) => {
       assinaturasMainObject.value = Object.assign({}, props.row)
       assinaturasDialog.value.action = 'updateStatus'
@@ -196,6 +228,7 @@ export default defineComponent({
       assinaturasFilterForRows,
       assinaturasMainObject,
       assinaturasRows,
+      assinaturasSearchData,
       assinaturasUpdateStatusButton,
       assinaturasViewButton,
       print,
