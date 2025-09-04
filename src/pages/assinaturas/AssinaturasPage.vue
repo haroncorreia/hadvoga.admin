@@ -85,7 +85,7 @@
 <script>
 // Quasar imports
 import { api } from 'src/boot/axios'
-import { defineComponent, onMounted, ref } from 'vue'
+import { defineComponent, onMounted, ref, watch } from 'vue'
 
 // JS imports
 import { notify } from 'src/imports/NotifyHandler'
@@ -135,6 +135,23 @@ export default defineComponent({
     onMounted(() => {
       assinaturasFetch()
     })
+
+    watch(trashMode, (newValue) => {
+      if (newValue) {
+        assinaturasFetch()
+        assinaturasColumns.value = assinaturasModel.getTrashColumns()
+        assinaturasFilterForRows.value = ''
+      } else {
+        assinaturasFetch()
+        assinaturasColumns.value = assinaturasModel.getCommonColumns()
+      }
+    }, { deep: true })
+
+    watch(searchMode, (newValue) => {
+      if (!newValue) {
+        assinaturasFetch()
+      }
+    }, { deep: true })
 
     const assinaturasCreate = async (data) => {
       // Lógica para criar uma nova assinatura
@@ -187,7 +204,6 @@ export default defineComponent({
       // Roda a requisição
       try {
         const url = `/assinaturas/filter${trashMode.value ? 'Removed' : ''}?` + queryString
-        console.log(url);
         const response = await api.get(url)
         assinaturasRows.value = response.data
       } catch (error) {

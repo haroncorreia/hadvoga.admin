@@ -31,21 +31,6 @@
       />
     </div>
 
-    <div class="col-6 q-mb-md">
-      <q-input
-        autofocus
-        ref="refSearchAssinaturasPlanoNome"
-        filled
-        label="Nome do plano"
-        type="input"
-        name="planos_nome"
-        placeholder="Nome do plano"
-        hint="Informe o nome ou parte do nome do plano"
-        v-model="componentSearchObject.planos_fk_nome"
-        @keyup="onEnterKeyUp"
-      />
-    </div>
-        
   </div>
   <q-btn flat color="primary" icon="search" label="Pesquisar" @click="search" />
   <q-btn flat color="primary" icon="cleaning_services" label="Limpar" @click="clean" />
