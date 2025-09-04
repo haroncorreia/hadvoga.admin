@@ -1,7 +1,7 @@
 <template>
   <div class="flex flex-start row">
 
-    <div class="col-3 q-mb-md" v-show="componentDialog.action !== 'updateStatus'">
+    <div class="col-3 q-mb-md" v-if="componentDialog.action !== 'updateStatus'">
       <q-input
         v-if="componentDialog.action !== 'create'"
         ref="refAssinaturasIdField"
@@ -17,8 +17,9 @@
       />
     </div>
 
-    <div class="col-12 q-mb-md" v-show="componentDialog.action !== 'updateStatus'">
+    <div class="col-12 q-mb-md" v-if="componentDialog.action !== 'updateStatus'">
       <q-select
+        autofocus
         ref="refAssinaturasIdUsuarioField"
         filled
         name="assinaturas_id_usuario"
@@ -34,11 +35,11 @@
         use-input
         hide-selected
         fill-input
-        readonly
+        :readonly="componentDialog.action !== 'create'"
         :options="usuariosOptions"
         @filter="usuariosFilter"
         :rules="[Rules.required]"
-        bg-color="white"
+        :bg-color="getBgFieldColor(componentDialog.action)"
         >
         <template v-slot:no-option>
           <q-item>
@@ -50,7 +51,7 @@
       </q-select>
     </div>
 
-    <div class="col-12 q-mb-md" v-show="componentDialog.action !== 'updateStatus'">
+    <div class="col-12 q-mb-md" v-if="componentDialog.action !== 'updateStatus'">
       <q-select
         ref="refAssinaturasIdPlanoField"
         filled
@@ -88,7 +89,7 @@
       </q-select>
     </div>
 
-    <div class="col-6 q-mb-md q-pr-sm" v-show="componentDialog.action !== 'updateStatus'">
+    <div class="col-6 q-mb-md q-pr-sm" v-if="componentDialog.action !== 'updateStatus'">
       <q-input
         ref="refAssinaturasDataInicioField"
         filled
@@ -110,7 +111,7 @@
       />
     </div>
 
-    <div class="col-6 q-mb-md" v-show="componentDialog.action !== 'updateStatus'">
+    <div class="col-6 q-mb-md" v-if="componentDialog.action !== 'updateStatus'">
       <q-input
         ref="refAssinaturasDataFimField"
         filled
@@ -132,7 +133,7 @@
       />
     </div>
 
-    <div class="col-12 q-mb-md" v-show="componentDialog.action === 'updateStatus'">
+    <div class="col-12 q-mb-md" v-if="componentDialog.action === 'updateStatus'">
       <q-input
         autofocus
         ref="refAddinaturasObservacoesField"

@@ -25,7 +25,7 @@
 
       <template v-slot:top>
 
-        <TableHeaderActionButtons v-model:searchMode="searchMode" v-model:trashMode="trashMode" v-model:printMode="printMode" @createButtonEvent="assinaturasCreate" />
+        <TableHeaderActionButtons v-model:searchMode="searchMode" v-model:trashMode="trashMode" v-model:printMode="printMode" @createButtonEvent="assinaturasCreateButton" />
 
         <TableHeaderPrintButtons v-model:printMode="printMode" :columns="assinaturasColumns" :rows="assinaturasRows" :prefixFileName="'CLIENTES'" />
 
@@ -153,9 +153,14 @@ export default defineComponent({
       }
     }, { deep: true })
 
-    const assinaturasCreate = async (data) => {
-      // Lógica para criar uma nova assinatura
-      console.log(data)
+    const assinaturasCreateButton = () => {
+      assinaturasMainObject.value = Object.assign({}, {})
+      assinaturasDialog.value.action = 'create'
+      assinaturasDialog.value.title = 'Criar'
+      assinaturasDialog.value.hint = 'Criar nova assinatura'
+      assinaturasDialog.value.icon = 'add'
+      assinaturasDialog.value.iconColor = 'positive'
+      assinaturasDialog.value.visible = true
     }
 
     const assinaturasEditButton = (props) => {
@@ -236,7 +241,7 @@ export default defineComponent({
       searchMode,
       trashMode,
       assinaturasColumns,
-      assinaturasCreate,
+      assinaturasCreateButton,
       assinaturasDialog,
       assinaturasEditButton,
       assinaturasFetch,
