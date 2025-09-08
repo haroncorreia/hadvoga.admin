@@ -46,11 +46,11 @@
                   {label: 'Visualizar', icon: 'visibility', color: 'primary', action: planosViewButton, caption: 'Ver plano' },
                   {label: 'Editar', icon: 'edit', color: 'positive', action: planosEditButton, caption: 'Editar plano', showOnTrashMode: false },
                   {
-                    label: props.row.planos_habilitado ? 'Desabilitar' : 'Habilitar',
-                    icon: props.row.planos_habilitado ? 'sym_o_person_off' : 'sym_o_person_check',
-                    color: props.row.planos_habilitado ? 'negative' : 'positive',
+                    label: props.row.planos_ativo ? 'Desativar' : 'Ativar',
+                    icon: props.row.planos_ativo ? 'toggle_off' : 'toggle_on',
+                    color: props.row.planos_ativo ? 'negative' : 'positive',
                     action: planosEnableDisableButton,
-                    caption: props.row.planos_habilitado ? 'Desabilitar plano' : 'Habilitar plano',
+                    caption: props.row.planos_ativo ? 'Desativar plano' : 'Ativar plano',
                     showOnTrashMode: false
                   },
                   {label: 'Remover', icon: 'delete_sweep', color: 'negative', action: planosRemoveButton, caption: 'Remover plano', showOnTrashMode: false },
@@ -187,14 +187,14 @@ export default defineComponent({
       $q.dialog({
         component: OperationDialog,
         componentProps: {
-          dialogMessage: props.row.planos_habilitado ? 'Tem certeza que deseja desabilitar este plano?' : 'Tem certeza que deseja habilitar este plano?',
-          dialogIcon: props.row.planos_habilitado ? 'sym_o_person_off' : 'sym_o_person_check',
-          dialogIconColor: props.row.planos_habilitado ? 'negative' : 'positive',
+          dialogMessage: props.row.planos_ativo ? 'Tem certeza que deseja desativar este plano?' : 'Tem certeza que deseja ativar este plano?',
+          dialogIcon: props.row.planos_ativo ? 'toggle_off' : 'toggle_on',
+          dialogIconColor: props.row.planos_ativo ? 'negative' : 'positive',
           persistent: true,
         },
       }).onOk(async () => {
         try {
-          const res = await api.patch(`/planos/${props.row.planos_id}/toggle-status`, { habilitado: !props.row.planos_habilitado })
+          const res = await api.patch(`/planos/${props.row.planos_id}/update-status`, { ativo: !props.row.planos_ativo })
           ResponseHandler(res)
           planosFetch()
         } catch (error) {
@@ -254,6 +254,7 @@ export default defineComponent({
       if (queryString.endsWith('&')) queryString = queryString.slice(0, -1)
       // Roda a requisição
       try {
+        console.log(queryString);
         const url = `/planos/filter${trashMode.value ? 'Removed' : ''}?` + queryString
         const response = await api.get(url)
         planosRows.value = response.data

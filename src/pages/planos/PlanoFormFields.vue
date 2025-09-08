@@ -39,16 +39,16 @@
       />
     </div>
 
-    <div class="col-6 q-mb-md q-pr-sm">
+    <div class="col-12 q-mb-md">
       <q-input
         autofocus
         ref="refPlanosDescricaoField"
         filled
         label="Descrição do plano"
-        type="input"
+        type="textarea"
         name="planos_descricao"
         placeholder="Descrição do plano"
-        :hint="(componentDialog.action === 'create' || componentDialog.action === 'edit') ? 'Informe uma descrição do plano' : ''"
+        :hint="(componentDialog.action === 'create' || componentDialog.action === 'edit') ? 'Informe a descrição do plano' : ''"
         :readonly="
           componentDialog.action === 'view' ||
           componentDialog.action === 'remove' ||
@@ -56,7 +56,7 @@
           componentDialog.action === 'destroy'
         "
         v-model="componentMainObject.planos_descricao"
-        :rules="[Rules.required, Rules.maxLength255]"
+        :rules="[Rules.required, Rules.minLength3, Rules.maxLength255]"
         :bg-color="getBgFieldColor(componentDialog.action)"
       />
     </div>
@@ -66,7 +66,7 @@
         ref="refPlanosPrecoField"
         filled
         label="Preço do plano"
-        type="number"
+        type="text"
         name="planos_preco"
         placeholder="Preço do plano"
         :hint="(componentDialog.action === 'create' || componentDialog.action === 'edit') ? 'Informe o preço do plano' : ''"
@@ -76,10 +76,17 @@
           componentDialog.action === 'restore' ||
           componentDialog.action === 'destroy'
         "
+        mask="#.##"
+        fill-mask="0"
+        reverse-fill-mask
         v-model="componentMainObject.planos_preco"
-        :rules="[Rules.required, Rules.number]"
+        :rules="[Rules.required, Rules.floatWithR]"
         :bg-color="getBgFieldColor(componentDialog.action)"
-      />
+      >
+        <template v-slot:prepend>
+          R$
+        </template>
+      </q-input>
     </div>
 
     <div class="col-6 q-mb-md">
@@ -152,6 +159,7 @@ export default defineComponent({
     });
 
     onActivated(() => {
+      // console.log(componentMainObject.value)
     })
 
     return {

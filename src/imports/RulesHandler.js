@@ -34,6 +34,16 @@ export const Rules = {
   number: (value) =>
     value ? !value || /^\d+$/.test(value) || 'Apenas números são permitidos' : true,
 
+  float: (value) =>
+    value ? !value || /^\d+(\.\d+)?$/.test(value) || 'Apenas números decimais são permitidos' : true,
+
+  floatWithR: (value) =>
+    value
+      ? !value ||
+        /^[R\$]?\s?\d+(\.\d+)?$/.test(value) ||
+        'Apenas números decimais são permitidos.'
+      : true,
+
   whatsapp: (value) =>
     value ? !value || /^\+?[1-9]\d{1,14}$/.test(value) || 'Número de WhatsApp inválido' : true,
 
