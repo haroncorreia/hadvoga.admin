@@ -15,6 +15,7 @@ const routes = [
         { path: '/assinaturas', component: () => import('pages/assinaturas/AssinaturasPage.vue') },
         { path: '/usuarios', component: () => import('pages/usuarios/UsuariosPage.vue') },
         { path: '/planos', component: () => import('pages/planos/PlanosPage.vue') },
+        { path: '/pagamentos', component: () => import('pages/pagamentos/PagamentosPage.vue') },
       ],
   },
 
