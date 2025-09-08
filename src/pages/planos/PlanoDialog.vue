@@ -143,11 +143,9 @@ export default defineComponent({
 
       let sanitizedObject = {
         nome: componentMainObject.value.planos_nome,
-        apelido: componentMainObject.value.planos_apelido,
-        data_nascimento: componentMainObject.value.planos_data_nascimento,
-        cpf: componentMainObject.value.planos_cpf,
-        celular: componentMainObject.value.planos_celular,
-        email: componentMainObject.value.planos_email,
+        descricao: componentMainObject.value.planos_descricao,
+        preco: componentMainObject.value.planos_preco,
+        ativo: componentMainObject.value.planos_ativo,
       }
 
       // Bloco de execução da ação
@@ -155,8 +153,6 @@ export default defineComponent({
         let res = null
         switch (componentDialog.value.action) {
           case 'create':
-            sanitizedObject.senha = componentMainObject.value.planos_senha;
-            sanitizedObject.confirmaSenha = componentMainObject.value.planos_confirmaSenha;
             res = await api.post('/planos', sanitizedObject)
             id = res.data.data[0];
             break
@@ -171,17 +167,6 @@ export default defineComponent({
             break
           case 'destroy':
             res = await api.delete(`/planos/${id}`)
-            break
-          case 'updatePassword':
-            res = await api.patch(`/planos/${id}/reset-password`, {
-              senha: componentMainObject.value.planos_senha,
-              confirmaSenha: componentMainObject.value.planos_confirmaSenha
-            })
-            break
-          case 'updateRole':
-            res = await api.patch(`/planos/${id}/update-role`, {
-              perfil: componentMainObject.value.planos_perfil
-            })
             break
           default:
             notify.warning('Operação não definida em actionExecute().')
@@ -202,8 +187,6 @@ export default defineComponent({
     return {
       componentForm,
       componentDialog,
-      componentIdCliente,
-      componentIdProcesso,
       componentMainObject,
       actionConfirm
     }

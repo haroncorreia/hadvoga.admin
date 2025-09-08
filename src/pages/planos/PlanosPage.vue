@@ -27,7 +27,7 @@
 
         <TableHeaderActionButtons v-model:searchMode="searchMode" v-model:trashMode="trashMode" v-model:printMode="printMode" @createButtonEvent="planosCreateButton" />
 
-        <TableHeaderPrintButtons v-model:printMode="printMode" :columns="planosColumns" :rows="planosRows" :prefixFileName="'USUARIOS'" />
+        <TableHeaderPrintButtons v-model:printMode="printMode" :columns="planosColumns" :rows="planosRows" :prefixFileName="'PLANOS'" />
 
         <TableHeaderFastFilter v-model:searchMode="searchMode" @filterDataEvent="planosFilter" />
 
@@ -61,9 +61,9 @@
                 v-model:trashMode="trashMode"
               />
             </span>
-            <span v-else-if="col.name === 'planos_habilitado'">
-              <q-badge :color="col.value === 'Sim' ? 'green' : 'red'" text-color="white">
-                {{ col.value }}
+            <span v-else-if="col.name === 'planos_ativo'">
+              <q-badge :color="col.value === 1 ? 'green' : 'red'" text-color="white">
+                {{ col.value === 1 ? 'Sim' : 'Não' }}
               </q-badge>
             </span>
             <span v-else :class="trashMode ? 'text-negative' : ''">{{ col.value }}</span>
@@ -72,7 +72,7 @@
       </template>
     </q-table>
 
-    <UsuarioDialog :dialogProp="planosDialog" :mainObjectProp="planosMainObject" @usuarioDialogReturnEvent="planosFetch" />
+    <PlanoDialog :dialogProp="planosDialog" :mainObjectProp="planosMainObject" @planoDialogReturnEvent="planosFetch" />
 
   </q-page>
 </template>
@@ -98,7 +98,7 @@ import TableDropDownButton from 'src/components/TableDropDownButton.vue'
 import TableHeaderFastFilter from 'src/components/TableHeaderFastFilter.vue'
 import TableHeaderPrintButtons from 'src/components/TableHeaderPrintButtons.vue'
 import TableHeaderSearchFields from 'src/components/TableHeaderSearchFields.vue'
-import UsuarioDialog from './UsuarioDialog.vue'
+import PlanoDialog from './PlanoDialog.vue'
 import PlanosSearchFields from './PlanosSearchFields.vue'
 import { ResponseHandler } from 'src/imports/ResponseHandler'
 
@@ -113,7 +113,7 @@ export default defineComponent({
     TableHeaderFastFilter,
     TableHeaderPrintButtons,
     TableHeaderSearchFields,
-    UsuarioDialog,
+    PlanoDialog,
     PlanosSearchFields
   },
 
