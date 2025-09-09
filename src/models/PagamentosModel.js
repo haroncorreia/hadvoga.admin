@@ -20,7 +20,7 @@ export const pagamentosModel = {
       required: true,
       label: 'Assinatura',
       align: 'left',
-      field: obj => 'ID: ' + obj.pagamentos_id_assinatura + ' - ' + obj.usuarios_fk_nome + ' - Assinatura: ' + obj.planos_fk_nome,
+      field: obj => 'ID: ' + obj.pagamentos_id_assinatura + ' - ' + obj.usuarios_fk_nome + ' - Plano: ' + obj.planos_fk_nome,
       sortable: true
     },
     { name: 'pagamentos_data_hora', required: true, label: 'Data/hora', align: 'left', field: obj => maskDataHoraBR(obj.pagamentos_data_hora), sortable: true },
@@ -35,7 +35,7 @@ export const pagamentosModel = {
       required: true,
       label: 'Assinatura',
       align: 'left',
-      field: obj => 'ID: ' + obj.pagamentos_id_assinatura + ' - ' + obj.usuarios_fk_nome + ' - Assinatura: ' + obj.planos_fk_nome,
+      field: obj => 'ID: ' + obj.pagamentos_id_assinatura + ' - ' + obj.usuarios_fk_nome + ' - Plano: ' + obj.planos_fk_nome,
       sortable: true
     },    { name: 'pagamentos_data_hora', required: true, label: 'Data/hora', align: 'left', field: obj => obj.pagamentos_data_hora, sortable: true },
     { name: 'pagamentos_metodo', required: true, label: 'Método', align: 'left', field: obj => obj.pagamentos_metodo ? obj.pagamentos_metodo : '-', sortable: true },

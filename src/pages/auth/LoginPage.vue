@@ -22,6 +22,7 @@
                   :rules="fieldEmailRules"
                   placeholder="Informe seu e-mail de acesso"
                   type="email"
+                  class="q-mb-md"
                   />
 
                 <q-input
