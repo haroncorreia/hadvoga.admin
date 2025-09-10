@@ -49,11 +49,9 @@
                 <q-btn unelevated color="primary" size="lg" class="full-width" label="Login" type="Submit" />
               </q-card-actions>
 
-              <!--
               <q-card-section class="text-center">
-                <p class="text-grey-6">Não possui acesso? <a href="/register">Solicite</a>.</p>
+                <p class="text-grey-6">Não possui acesso? <a href="http://localhost:9005/register" target="_blank">Registre-se</a>.</p>
               </q-card-section>
-            -->
             </q-card>
           </q-form>
         </div>
